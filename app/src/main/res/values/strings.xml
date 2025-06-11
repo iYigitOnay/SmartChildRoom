@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">akillioda</string>
+    <string name="temperature_text">Sıcaklık: 21°C</string>
+    <string name="humidity_text">Nem: 11%</string>
+    <string name="co2_text">CO2: 25 ppm</string>
+    <string name="register_text">Akıllı Çocuk Odası için Kayıt Ol</string>
+    <string name="name_hint">İsim</string>
+    <string name="last_name_hint">Soyisim</string>
+    <string name="username_hint">Kullanıcı Adı</string>
+    <string name="password_hint">Şifre</string>
+    <string name="register_button_text">Kayıt Ol</string>
+    <string name="already_have_account">Zaten bir hesabınız var mı? Buradan giriş yapın</string>
+    <string name="login_for_smart_room">Akıllı Çocuk Odası için Giriş Yap</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login_button_text">Giriş Yap</string>
+    <string name="no_account_prompt">Hesabınız yok mu? Buradan kaydolun</string>
+</resources>

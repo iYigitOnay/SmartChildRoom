@@ -1,0 +1,8 @@
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#2196F3</color>
+    <color name="gradient_start">#2196F3</color>
+    <color name="gradient_end">#FF69B4</color>
+    <color name="pink">#FF69B4</color>
+
+</resources>
