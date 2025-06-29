@@ -64,7 +64,7 @@ class DashboardActivity : AppCompatActivity() {
 
                 if (response.isSuccessful && response.body() != null) {
                     val dashboard = response.body()!!
-
+                    Log.d("DEBUG_BIRTHDATE", "Backend'den Gelen Doğum Tarihi: ${dashboard.childBirthDate}")
                     tvWelcome.text = "Merhaba ${dashboard.childName}'nın ebeveyni ${dashboard.userName}!"
                     tvEmergencyPhone.text = "Acil Kişi: ${dashboard.emergencyContact}"
 
@@ -74,19 +74,18 @@ class DashboardActivity : AppCompatActivity() {
 
                     // Uyku saati kalan süre hesabı
                     try {
-                        val formatter = DateTimeFormatter.ofPattern("HH:mm")
-                        val sleepTime = LocalTime.parse(dashboard.sleepSchedule, formatter)
-                        val now = LocalTime.now()
-                        var duration = Duration.between(now, sleepTime)
-                        if (duration.isNegative) {
-                            duration = duration.plusHours(24)
+                        val formatter = DateTimeFormatter.ofPattern("d/M/yyyy") // çünkü sen backend’de "5/7/2020" gibi gönderiyorsun
+                        val birthDate = LocalDate.parse(dashboard.childBirthDate, formatter)
+                        val today = LocalDate.now()
+                        val nextBirthday = birthDate.withYear(today.year).let { bd ->
+                            if (bd.isBefore(today)) bd.plusYears(1) else bd
                         }
-                        val hours = duration.toHours()
-                        val minutes = duration.minusHours(hours).toMinutes()
-                        tvSleepSchedule.text = "Yatma Saati: ${dashboard.sleepSchedule} ($hours saat $minutes dk kaldı)"
+                        val daysLeft = ChronoUnit.DAYS.between(today, nextBirthday)
+                        tvBirthdayCountdown.text = "Yaş gününe $daysLeft gün kaldı 🎂"
                     } catch (e: Exception) {
-                        tvSleepSchedule.text = "Uyku saati geçersiz"
+                        tvBirthdayCountdown.text = "Doğum günü bilgisi okunamadı"
                     }
+
 
                     // Doğum gününe kaç gün kaldı hesabı
                     tvBirthdayCountdown.text = try {

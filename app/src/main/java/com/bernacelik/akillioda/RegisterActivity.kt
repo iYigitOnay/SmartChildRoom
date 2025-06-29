@@ -98,6 +98,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             val jsonBody = JSONObject().apply {
+                Log.d("DEBUG_REGISTER", "Doğum Tarihi Backend'e: ${childBirthDate.text}")
                 put("kullaniciAdi", usernameEditText.text.toString())
                 put("sifre", passwordEditText.text.toString())
                 put("ad", firstName.text.toString())
