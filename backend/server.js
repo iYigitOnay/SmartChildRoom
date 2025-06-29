@@ -20,9 +20,16 @@ app.get("/", (req, res) => {
 const userRoutes = require("./routes/user");
 app.use("/api/user", userRoutes);
 
+const sensorRoutes = require("./routes/sensors");
+app.use("/api/sensors", sensorRoutes);
+
 // Dashboard endpoint
-app.get("/dashboard/:kullaniciAdi", async (req, res) => {
+   app.get("/dashboard/:kullaniciAdi", async (req, res) => {
   const { kullaniciAdi } = req.params;
+
+  const sensorRoutes = require("./routes/sensors");
+  app.use("/api/sensor", sensorRoutes);
+
 
   try {
     // Kullanıcı bilgilerini çek (user modelini de eklemen lazım)
@@ -32,25 +39,24 @@ app.get("/dashboard/:kullaniciAdi", async (req, res) => {
     }
 
     // En son sensör verisini al
-    const sensorDataArr = await Sensor.find({ kullaniciId: kullaniciAdi })
+    const sensorDataArr = await Sensor.find({ userId: new mongoose.Types.ObjectId(user._id) })
                                       .sort({ createdAt: -1 })
                                       .limit(1);
 
     const sensorData = sensorDataArr[0] || {};
 
     // Dashboard'da ihtiyacın olan tüm bilgileri birleştir
-    const dashboardResponse = {
-      userName: user.name,
-      childName: user.childName,
-      emergencyContact: user.emergencyPhone,
-      sleepSchedule: user.sleepSchedule,
-      childBirthDate: user.childBirthDate,
-      sensorData: {
-        temperature: sensorData.temperature,
-        humidity: sensorData.humidity,
-        co2: sensorData.co2
-      }
-    };
+ const dashboardResponse = {
+   userName: user.name,
+   childName: user.childName,
+   emergencyContact: user.emergencyPhone,
+   sleepSchedule: user.sleepSchedule, // ← Buraya virgül ekledik
+   temperature,
+   humidity,
+   co2
+ };
+
+
 
     res.status(200).json(dashboardResponse);
   } catch (error) {
@@ -76,3 +82,5 @@ mongoose
   .catch((err) => {
     console.error("❌ MongoDB bağlantı hatası:", err);
   });
+
+

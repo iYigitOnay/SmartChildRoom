@@ -1,13 +1,29 @@
-const mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
+const Sensor = require("../models/sensor");
+const mongoose = require("mongoose"); // ← Bunu da eklemeyi unutma
 
-const sensorSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  temperature: Number,
-  humidity: Number,
-  co2: Number,
-  sleepSchedule: String,
-  emergencyPhone: String,
-  createdAt: { type: Date, default: Date.now }
+// Sensör verisi kaydet
+router.post("/add", async (req, res) => {
+  try {
+    const { userId, temperature, humidity, co2 } = req.body;
+
+    if (!userId || temperature == null || humidity == null || co2 == null) {
+      return res.status(400).json({ error: "Eksik veri gönderildi." });
+    }
+
+    const newSensorData = new Sensor({
+      userId: new mongoose.Types.ObjectId(userId), // ← burada new kullan
+      temperature,
+      humidity,
+      co2
+    });
+
+    await newSensorData.save();
+
+    res.status(201).json({ message: "Sensör verisi başarıyla kaydedildi." });
+  } catch (err) {
+    console.error("❌ Sensör verisi kaydedilirken hata:", err);
+    res.status(500).json({ error: "Sunucu hatası", detay: err.message });
+  }
 });
-
-module.exports = mongoose.model("Sensor", sensorSchema);
