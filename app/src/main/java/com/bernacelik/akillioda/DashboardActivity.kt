@@ -73,24 +73,25 @@ class DashboardActivity : AppCompatActivity() {
                     tvCO2.text = "${dashboard.sensorData.co2 ?: "--"} ppm"
 
                     // Uyku saati kalan süre hesabı
+                    // ⏰ Uyku saatine kalan süreyi hesapla
                     try {
-                        val formatter = DateTimeFormatter.ofPattern("d/M/yyyy") // çünkü sen backend’de "5/7/2020" gibi gönderiyorsun
-                        val birthDate = LocalDate.parse(dashboard.childBirthDate, formatter)
-                        val today = LocalDate.now()
-                        val nextBirthday = birthDate.withYear(today.year).let { bd ->
-                            if (bd.isBefore(today)) bd.plusYears(1) else bd
-                        }
-                        val daysLeft = ChronoUnit.DAYS.between(today, nextBirthday)
-                        tvBirthdayCountdown.text = "Yaş gününe $daysLeft gün kaldı 🎂"
+                        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+                        val sleepTime = LocalTime.parse(dashboard.sleepSchedule, formatter)
+                        val now = LocalTime.now()
+                        val duration = Duration.between(now, sleepTime)
+                        val adjustedDuration = if (duration.isNegative) duration.plusHours(24) else duration
+                        val hoursLeft = adjustedDuration.toHours()
+                        val minutesLeft = adjustedDuration.toMinutes() % 60
+
+                        tvSleepSchedule.text = "Yatma saati: ${dashboard.sleepSchedule} - ${hoursLeft} saat ${minutesLeft} dk kaldı 😴"
                     } catch (e: Exception) {
-                        tvBirthdayCountdown.text = "Doğum günü bilgisi okunamadı"
+                        tvSleepSchedule.text = "Uyku saati geçersiz"
+                        Log.e("SLEEP_PARSE_ERROR", "Uyku saati işlenemedi: ${e.message}")
                     }
 
-
-                    // Doğum gününe kaç gün kaldı hesabı
                     tvBirthdayCountdown.text = try {
                         val today = LocalDate.now()
-                        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                        val formatter = DateTimeFormatter.ofPattern("d/M/yyyy") // ← BURASI KRİTİK
                         val birthDate = LocalDate.parse(dashboard.childBirthDate, formatter)
                         var nextBirthday = birthDate.withYear(today.year)
 
@@ -103,6 +104,7 @@ class DashboardActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         "Doğum günü bilgisi geçersiz"
                     }
+
 
                 } else {
                     Toast.makeText(this@DashboardActivity, "Dashboard verisi alınamadı", Toast.LENGTH_LONG).show()
