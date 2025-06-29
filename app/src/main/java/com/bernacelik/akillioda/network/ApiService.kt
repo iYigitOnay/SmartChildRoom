@@ -1,24 +1,37 @@
-package com.bernacelik.akillioda.com.bernacelik.akillioda.network
+package com.bernacelik.akillioda.network
 
-
+import com.bernacelik.akillioda.model.DashboardResponse
+import com.bernacelik.akillioda.model.SensorData
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Headers
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
-data class RegisterRequest(val username: String, val password: String)
-data class LoginRequest(val username: String, val password: String)
-data class AuthResponse(val token: String, val message: String)
+
+data class RegisterRequest(
+    val userName: String,
+    val childName: String,
+    val childBirthDate: String,
+    val emergencyContact: String,
+    val sleepSchedule: String,
+    val sensorData: SensorData
+)
+
+
+data class RegisterResponse(
+    val message: String
+)
 
 interface ApiService {
+    @GET("api/sensors/latest")
+    fun getLatestSensorData(): Call<SensorData>
 
-    @Headers("Content-Type: application/json")
-    @POST("api/register")
-    fun registerUser(@Body request: RegisterRequest): Call<AuthResponse>
+    @GET("api/user/dashboard/{userId}")
+    fun getDashboardData(@Path("userId") userId: String): Call<DashboardResponse>
 
-    @Headers("Content-Type: application/json")
-    @POST("api/login")
-    fun loginUser(@Body request: LoginRequest): Call<AuthResponse>
+
+    @POST("register")
+    fun registerUser(@Body request: RegisterRequest): Call<RegisterResponse>
 }
-
 

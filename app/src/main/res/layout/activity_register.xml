@@ -21,7 +21,6 @@
             android:textStyle="bold"
             android:layout_marginBottom="32dp"/>
 
-        <!-- TÜM EditText ve Spinner alanları aynı tasarımda -->
 
         <EditText
             android:id="@+id/firstName"
@@ -35,6 +34,7 @@
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
 
+
         <EditText
             android:id="@+id/lastName"
             android:layout_width="match_parent"
@@ -46,6 +46,31 @@
             android:inputType="textPersonName"
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Kullanıcı Adı"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#DDDDDD"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Şifre"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#DDDDDD"
+            android:layout_marginBottom="16dp" />
+
 
         <EditText
             android:id="@+id/childName"
@@ -106,12 +131,15 @@
             android:id="@+id/sleepSchedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Uyku Zamanı (örn: 21:00 - 07:00)"
+            android:hint="Yatma Saati Seç (örn: 21:00)"
+            android:focusable="false"
+            android:clickable="true"
             android:backgroundTint="#FFFFFF"
             android:textColor="#FFFFFF"
             android:textColorHint="#DDDDDD"
             android:padding="12dp"
             android:layout_marginBottom="24dp"/>
+
 
         <Button
             android:id="@+id/registerButton"

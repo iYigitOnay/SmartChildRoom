@@ -1,12 +1,16 @@
 package com.bernacelik.akillioda
 
 import android.content.Intent
+import java.net.URL
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.io.OutputStreamWriter
 
 class LoginActivity : AppCompatActivity() {
 
@@ -20,25 +24,59 @@ class LoginActivity : AppCompatActivity() {
         val registerText = findViewById<TextView>(R.id.registerText)
 
         loginButton.setOnClickListener {
-            val username = username.text.toString()
-            val password = password.text.toString()
+            val usernameStr = username.text.toString()
+            val passwordStr = password.text.toString()
 
-            if (username == "admin" && password == "1234") {
-                // Giriş başarılıysa SharedPreferences'a kayıt et
-                val sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                with(sharedPref.edit()) {
-                    putBoolean("isLoggedIn", true)
-                    apply()
-                }
-
-                // Dashboard'a yönlendir
-                val intent = Intent(this, DashboardActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "Hatalı kullanıcı adı veya şifre", Toast.LENGTH_SHORT).show()
+            if (usernameStr.isBlank() || passwordStr.isBlank()) {
+                Toast.makeText(this, "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            Thread {
+                try {
+                    val url = URL("http://192.168.1.8:5000/api/user/login")
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "POST"
+                    connection.setRequestProperty("Content-Type", "application/json")
+                    connection.doOutput = true
+
+                    val jsonInput = JSONObject()
+                    jsonInput.put("kullaniciAdi", usernameStr)
+                    jsonInput.put("sifre", passwordStr)
+
+                    val outputStreamWriter = OutputStreamWriter(connection.outputStream)
+                    outputStreamWriter.write(jsonInput.toString())
+                    outputStreamWriter.flush()
+
+                    val responseCode = connection.responseCode
+                    val responseStream = if (responseCode in 200..299) connection.inputStream else connection.errorStream
+                    val responseText = responseStream.bufferedReader().use { it.readText() }
+
+                    runOnUiThread {
+                        if (responseCode in 200..299) {
+                            val jsonResponse = JSONObject(responseText)
+                            val userId = jsonResponse.getString("userId")
+
+                            val intent = Intent(this, DashboardActivity::class.java)
+                            intent.putExtra("userId", userId)
+                            startActivity(intent)
+                            finish()
+                        }
+                        else {
+                            Toast.makeText(this, "Giriş başarısız: $responseText", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    connection.disconnect()
+
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        Toast.makeText(this, "Sunucuya bağlanılamadı: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }.start()
         }
+
         registerText.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
