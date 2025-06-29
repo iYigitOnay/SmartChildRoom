@@ -67,7 +67,14 @@ class DashboardActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     val dashboard = response.body()!!
                     Log.d("DEBUG_BIRTHDATE", "Backend'den Gelen Doğum Tarihi: ${dashboard.childBirthDate}")
-                    tvWelcome.text = "Merhaba ${dashboard.childName}'nın ebeveyni ${dashboard.userName}!"
+                    Log.d("DEBUG_SENSOR", "Dashboard'dan gelen veriler: ${response.body()}")
+                    Log.d("DEBUG_SENSOR", "Temp: ${dashboard.sensorData.temperature}, Nem: ${dashboard.sensorData.humidity}, CO2: ${dashboard.sensorData.co2}")
+                    Log.d("DEBUG_DASHBOARD", "Gelen dashboard JSON: ${response.body()}")
+                    Log.d("DEBUG_SLEEP", "Uyku zamanı: ${dashboard.sleepSchedule}")
+                    Log.d("DEBUG_SENSOR", "Sıcaklık: ${dashboard.sensorData.temperature}")
+
+
+                    tvWelcome.text = "Merhaba ${dashboard.childName} bebeğin ebeveyni ${dashboard.userName}!"
                     tvEmergencyPhone.text = "Acil Kişi: ${dashboard.emergencyContact}"
 
                     tvTemperature.text = "${dashboard.sensorData.temperature ?: "--"} °C"

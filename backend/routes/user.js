@@ -93,7 +93,7 @@ router.get("/:id/profile", async (req, res) => {
   }
 });
 
-// Dashboard Verisi Getir
+// Dashboard Verisi Getir (sensor verileri dizi olarak)
 router.get("/dashboard/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -101,15 +101,16 @@ router.get("/dashboard/:userId", async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: "Kullanıcı bulunamadı" });
 
-    const sensorData = await Sensor.findOne({ userId }).sort({ createdAt: -1 });
+    // Tüm sensör verilerini zaman sırasına göre al
+const sensorDataList = await Sensor.find({ kullaniciId: userId }).sort({ createdAt: 1 });
 
     const dashboardData = {
-      userName: user.ad + " " + user.soyad,
+      userName: `${user.ad} ${user.soyad}`,
       childName: user.cocukAdi,
       childBirthDate: user.cocukDogumTarihi || null,
       sleepSchedule: user.uykuZamani || null,
       emergencyContact: user.acilDurumKisisi || null,
-      sensorData: sensorData || {},
+      sensorDataList: sensorDataList || [],
     };
 
     res.json(dashboardData);
@@ -118,5 +119,6 @@ router.get("/dashboard/:userId", async (req, res) => {
     res.status(500).json({ error: "Sunucu hatası" });
   }
 });
+
 
 module.exports = router;

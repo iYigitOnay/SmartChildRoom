@@ -1,12 +1,13 @@
 package com.bernacelik.akillioda.model
 
-// DashboardResponse.kt
+import com.google.gson.annotations.SerializedName
+
 data class DashboardResponse(
-    val userName: String,
-    val childName: String,
-    val childBirthDate: String,
-    val sleepSchedule: String,
-    val emergencyContact: String,
-    val sensorData: SensorData
+    @SerializedName("userName") val userName: String,
+    @SerializedName("childName") val childName: String,
+    @SerializedName("childBirthDate") val childBirthDate: String,
+    @SerializedName("sleepSchedule") val sleepSchedule: String,
+    @SerializedName("emergencyContact") val emergencyContact: String,
+    @SerializedName("sensorData") val sensorData: SensorData
 )
 
