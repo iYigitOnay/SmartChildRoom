@@ -12,12 +12,13 @@ router.post("/add", async (req, res) => {
       return res.status(400).json({ error: "Eksik veri gönderildi." });
     }
 
-    const newSensorData = new Sensor({
-      userId: new mongoose.Types.ObjectId(userId), // ← burada new kullan
-      temperature,
-      humidity,
-      co2
-    });
+  const newSensorData = new Sensor({
+    kullaniciId: userId,  ✅ DOĞRU
+    temperature,
+    humidity,
+    co2
+  });
+
 
     await newSensorData.save();
 
@@ -27,3 +28,6 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ error: "Sunucu hatası", detay: err.message });
   }
 });
+
+module.exports = router;
+

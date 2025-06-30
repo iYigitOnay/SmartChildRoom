@@ -3,6 +3,7 @@ package com.bernacelik.akillioda
 import android.content.Intent
 import java.net.URL
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -56,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
                         if (responseCode in 200..299) {
                             val jsonResponse = JSONObject(responseText)
                             val userId = jsonResponse.getString("userId")
+                            Log.d("LOGIN_DEBUG", "User ID geldi: $userId")
 
                             val intent = Intent(this, DashboardActivity::class.java)
                             intent.putExtra("userId", userId)

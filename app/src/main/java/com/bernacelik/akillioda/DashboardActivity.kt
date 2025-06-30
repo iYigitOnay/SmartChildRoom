@@ -67,6 +67,7 @@ class DashboardActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     val dashboard = response.body()!!
                     Log.d("DEBUG_BIRTHDATE", "Backend'den Gelen Doğum Tarihi: ${dashboard.childBirthDate}")
+                    Log.d("DEBUG_SENSOR", "Sensor verisi geldi mi: ${dashboard.sensorData}")
                     Log.d("DEBUG_SENSOR", "Dashboard'dan gelen veriler: ${response.body()}")
                     Log.d("DEBUG_SENSOR", "Temp: ${dashboard.sensorData.temperature}, Nem: ${dashboard.sensorData.humidity}, CO2: ${dashboard.sensorData.co2}")
                     Log.d("DEBUG_DASHBOARD", "Gelen dashboard JSON: ${response.body()}")
@@ -77,9 +78,16 @@ class DashboardActivity : AppCompatActivity() {
                     tvWelcome.text = "Merhaba ${dashboard.childName} bebeğin ebeveyni ${dashboard.userName}!"
                     tvEmergencyPhone.text = "Acil Kişi: ${dashboard.emergencyContact}"
 
-                    tvTemperature.text = "${dashboard.sensorData.temperature ?: "--"} °C"
-                    tvHumidity.text = "${dashboard.sensorData.humidity ?: "--"} %"
-                    tvCO2.text = "${dashboard.sensorData.co2 ?: "--"} ppm"
+                    if (dashboard.sensorData != null) {
+                        tvTemperature.text = "${dashboard.sensorData.temperature ?: "--"} °C"
+                        tvHumidity.text = "${dashboard.sensorData.humidity ?: "--"} %"
+                        tvCO2.text = "${dashboard.sensorData.co2 ?: "--"} ppm"
+                    } else {
+                        tvTemperature.text = "-- °C"
+                        tvHumidity.text = "-- %"
+                        tvCO2.text = "-- ppm"
+                    }
+
 
                     // Uyku saati kalan süre hesabı
                     // ⏰ Uyku saatine kalan süreyi hesapla
