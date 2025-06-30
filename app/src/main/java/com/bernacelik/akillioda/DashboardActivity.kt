@@ -68,29 +68,27 @@ class DashboardActivity : AppCompatActivity() {
                     val dashboard = response.body()!!
                     Log.d("DEBUG_BIRTHDATE", "Backend'den Gelen Doğum Tarihi: ${dashboard.childBirthDate}")
                     Log.d("DEBUG_SENSOR", "Sensor verisi geldi mi: ${dashboard.sensorData}")
-                    Log.d("DEBUG_SENSOR", "Dashboard'dan gelen veriler: ${response.body()}")
-                    Log.d("DEBUG_SENSOR", "Temp: ${dashboard.sensorData.temperature}, Nem: ${dashboard.sensorData.humidity}, CO2: ${dashboard.sensorData.co2}")
                     Log.d("DEBUG_DASHBOARD", "Gelen dashboard JSON: ${response.body()}")
                     Log.d("DEBUG_SLEEP", "Uyku zamanı: ${dashboard.sleepSchedule}")
-                    Log.d("DEBUG_SENSOR", "Sıcaklık: ${dashboard.sensorData.temperature}")
-
 
                     tvWelcome.text = "Merhaba ${dashboard.childName} bebeğin ebeveyni ${dashboard.userName}!"
                     tvEmergencyPhone.text = "Acil Kişi: ${dashboard.emergencyContact}"
 
                     if (dashboard.sensorData != null) {
+                        Log.d("DEBUG_SENSOR", "Sıcaklık: ${dashboard.sensorData.temperature}")
+                        Log.d("DEBUG_SENSOR", "Temp: ${dashboard.sensorData.temperature}, Nem: ${dashboard.sensorData.humidity}, CO2: ${dashboard.sensorData.co2}")
+
                         tvTemperature.text = "${dashboard.sensorData.temperature ?: "--"} °C"
                         tvHumidity.text = "${dashboard.sensorData.humidity ?: "--"} %"
                         tvCO2.text = "${dashboard.sensorData.co2 ?: "--"} ppm"
                     } else {
+                        Log.d("DEBUG_SENSOR", "Sensör verisi NULL geldi.")
                         tvTemperature.text = "-- °C"
                         tvHumidity.text = "-- %"
                         tvCO2.text = "-- ppm"
                     }
 
-
-                    // Uyku saati kalan süre hesabı
-                    // ⏰ Uyku saatine kalan süreyi hesapla
+                    // ⏰ Uyku saatine kalan süre
                     try {
                         val formatter = DateTimeFormatter.ofPattern("HH:mm")
                         val sleepTime = LocalTime.parse(dashboard.sleepSchedule, formatter)
@@ -106,9 +104,10 @@ class DashboardActivity : AppCompatActivity() {
                         Log.e("SLEEP_PARSE_ERROR", "Uyku saati işlenemedi: ${e.message}")
                     }
 
+                    // 🎂 Doğum günü hesabı
                     tvBirthdayCountdown.text = try {
                         val today = LocalDate.now()
-                        val formatter = DateTimeFormatter.ofPattern("d/M/yyyy") // ← BURASI KRİTİK
+                        val formatter = DateTimeFormatter.ofPattern("d/M/yyyy")
                         val birthDate = LocalDate.parse(dashboard.childBirthDate, formatter)
                         var nextBirthday = birthDate.withYear(today.year)
 
@@ -117,15 +116,15 @@ class DashboardActivity : AppCompatActivity() {
                         }
 
                         val daysLeft = ChronoUnit.DAYS.between(today, nextBirthday)
-                        "Doğum gününe $daysLeft gün kaldı"
+                        "Doğum gününe $daysLeft gün kaldı \uD83C\uDF82"
                     } catch (e: Exception) {
                         "Doğum günü bilgisi geçersiz"
                     }
 
-
                 } else {
                     Toast.makeText(this@DashboardActivity, "Dashboard verisi alınamadı", Toast.LENGTH_LONG).show()
                 }
+
             }
 
             override fun onFailure(call: Call<DashboardResponse>, t: Throwable) {

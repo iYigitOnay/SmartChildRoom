@@ -1,9 +1,8 @@
+// routes/sensors.js
 const express = require("express");
 const router = express.Router();
 const Sensor = require("../models/sensor");
-const mongoose = require("mongoose"); // ← Bunu da eklemeyi unutma
 
-// Sensör verisi kaydet
 router.post("/add", async (req, res) => {
   try {
     const { userId, temperature, humidity, co2 } = req.body;
@@ -12,13 +11,12 @@ router.post("/add", async (req, res) => {
       return res.status(400).json({ error: "Eksik veri gönderildi." });
     }
 
-  const newSensorData = new Sensor({
-    kullaniciId: userId,  ✅ DOĞRU
-    temperature,
-    humidity,
-    co2
-  });
-
+    const newSensorData = new Sensor({
+      userId, // Modelde "userId" olması gerekiyor
+      temperature,
+      humidity,
+      co2
+    });
 
     await newSensorData.save();
 
@@ -30,4 +28,3 @@ router.post("/add", async (req, res) => {
 });
 
 module.exports = router;
-
