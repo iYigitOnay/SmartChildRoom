@@ -63,6 +63,9 @@ class DashboardActivity : AppCompatActivity() {
             override fun onResponse(call: Call<DashboardResponse>, response: Response<DashboardResponse>) {
                 Log.d("DashboardActivity", "Response code: ${response.code()}")
                 Log.d("DashboardActivity", "Response body: ${response.body()}")
+                Log.d("DEBUG_RESPONSE_CODE", "Kod: ${response.code()}")
+                Log.d("DEBUG_RESPONSE_ERROR", "Hata Gövdesi: ${response.errorBody()?.string()}")
+                Log.d("DEBUG_RESPONSE_BODY", "Yanıt: ${response.body()}")
 
                 if (response.isSuccessful && response.body() != null) {
                     val dashboard = response.body()!!

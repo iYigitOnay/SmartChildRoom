@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
                         if (responseCode in 200..299) {
                             val jsonResponse = JSONObject(responseText)
                             val userId = jsonResponse.getString("userId")
-                            Log.d("LOGIN_DEBUG", "User ID geldi: $userId")
+                            Log.d("DEBUG_USERID", "Gelen userId: $userId")
 
                             val intent = Intent(this, DashboardActivity::class.java)
                             intent.putExtra("userId", userId)

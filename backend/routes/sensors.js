@@ -12,11 +12,12 @@ router.post("/add", async (req, res) => {
     }
 
     const newSensorData = new Sensor({
-      userId, // Modelde "userId" olması gerekiyor
+      kullaniciId: userId, // 🟢 DÜZGÜN KAYIT
       temperature,
       humidity,
       co2
     });
+
 
     await newSensorData.save();
 
