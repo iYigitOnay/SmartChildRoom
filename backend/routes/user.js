@@ -99,9 +99,10 @@ router.get("/dashboard/:userId", async (req, res) => {
     console.log("✅ Kullanıcı bulundu:", user);
 
     // Sensör verisini alalım
-   const sensorData = await Sensor.findOne({
-     kullaniciId: user._id
-   }).sort({ createdAt: -1 });
+ const sensorData = await Sensor.findOne({
+   "headers.kullaniciId": user._id.toString()
+ }).sort({ date: -1 });
+
 
 
     if (!sensorData) {
