@@ -11,12 +11,12 @@ router.post("/add", async (req, res) => {
       return res.status(400).json({ error: "Eksik veri gönderildi." });
     }
 
-    const newSensorData = new Sensor({
-      kullaniciId: userId, // 🟢 DÜZGÜN KAYIT
-      temperature,
-      humidity,
-      co2
-    });
+  const newSensorData = new Sensor({
+    kullaniciId: userId,
+    temperature,
+    humidity,
+    co2
+  });
 
 
     await newSensorData.save();

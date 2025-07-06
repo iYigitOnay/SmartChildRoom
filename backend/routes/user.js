@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require("../models/user");
 const Sensor = require("../models/sensor");
 const bcrypt = require("bcrypt");
-const mongoose = require("mongoose"); // ✅ ObjectId kullanmak için
 
 // Kullanıcı Kayıt
 router.post("/register", async (req, res) => {
@@ -66,59 +65,37 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Kullanıcı Profili Getir
-router.get("/:id/profile", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: "Kullanıcı bulunamadı" });
-
-    res.json({
-      adSoyad: `${user.ad} ${user.soyad}`,
-      cocukAdi: user.cocukAdi,
-      cocukDogumTarihi: user.cocukDogumTarihi,
-      uykuZamani: user.uykuZamani,
-      acilDurumKisisi: user.acilDurumKisisi,
-    });
-  } catch (err) {
-    console.error("Profil hatası:", err);
-    res.status(500).json({ error: "Sunucu hatası" });
-  }
-});
-
 // 🎯 Dashboard Verisi Getir
 router.get("/dashboard/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    // Kullanıcıyı bulmaya çalışalım
+    // Kullanıcıyı bul
     const user = await User.findById(userId);
-    if (!user) {
-      console.log("❌ Kullanıcı bulunamadı:", userId);  // Hata durumunda log
-      return res.status(404).json({ error: "Kullanıcı bulunamadı" });
-    }
-    console.log("✅ Kullanıcı bulundu:", user);
+    if (!user) return res.status(404).json({ error: "Kullanıcı bulunamadı" });
 
-    // Sensör verisini alalım
-const sensorData = await Sensor.findOne({
-  kullaniciId: user._id.toString()
-}).sort({ date: -1 });
+    // Sensör verisini getir
+    const sensorRaw = await Sensor.findOne({ kullaniciId: user._id }).sort({ createdAt: -1 });
 
-
-
-
-    if (!sensorData) {
-      console.log("❌ Sensör verisi bulunamadı:", user._id);
-    } else {
-      console.log("✅ Sensör verisi bulundu:", sensorData);
+    // Sensör verisini yapılandır
+    let sensorData = null;
+    if (sensorRaw) {
+      sensorData = {
+        temperature: sensorRaw.temp || sensorRaw.temperature || null,
+        humidity: sensorRaw.hum || sensorRaw.humidity || null,
+        co2: sensorRaw.co2 || null,
+        createdAt: sensorRaw.createdAt || null
+      };
     }
 
+    // Dashboard objesi
     const dashboardData = {
       userName: `${user.ad} ${user.soyad}`,
       childName: user.cocukAdi,
       childBirthDate: user.cocukDogumTarihi || null,
       sleepSchedule: user.uykuZamani || null,
       emergencyContact: user.acilDurumKisisi || null,
-      sensorData: sensorData || null
+      sensorData: sensorData
     };
 
     res.json(dashboardData);
@@ -128,6 +105,5 @@ const sensorData = await Sensor.findOne({
     res.status(500).json({ error: "Sunucu hatası" });
   }
 });
-
 
 module.exports = router;
