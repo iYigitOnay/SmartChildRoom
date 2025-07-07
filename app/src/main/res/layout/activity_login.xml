@@ -1,58 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bg_gradient"
-    android:gravity="center"
+    android:background="@drawable/bg_login_wave"
     android:padding="24dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Giriş Yap"
-        android:textSize="28sp"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"/>
-
-    <EditText
-        android:id="@+id/username"
+    <!-- Beyaz kart -->
+    <LinearLayout
+        android:id="@+id/cardLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Kullanıcı Adı"
-        android:backgroundTint="#FFFFFF"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="16dp"/>
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="@drawable/bg_white_card"
+        android:elevation="8dp">
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Şifre"
-        android:backgroundTint="#FFFFFF"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:inputType="textPassword"
-        android:layout_marginBottom="24dp"/>
+        <!-- Başlık -->
+        <TextView
+            android:id="@+id/tvLoginTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoş Geldiniz"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"/>
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Giriş Yap"
-        android:backgroundTint="#FFFFFF"
-        android:textColor="#4169E1"
-        android:textStyle="bold"/>
+        <!-- Kullanıcı Adı Alanı -->
+        <!-- Kullanıcı Adı -->
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:hint="Kullanıcı Adı"
+            android:textColor="#000000"
+            android:textColorHint="#CCCCCC"
+            android:background="@drawable/bg_input_whiteborder"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:inputType="textPersonName" />
 
+        <!-- Şifre -->
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:hint="Şifre"
+            android:textColor="#000000"
+            android:textColorHint="#CCCCCC"
+            android:background="@drawable/bg_input_whiteborder"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:inputType="textPassword" />
+
+
+
+        <!-- Giriş Butonu -->
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Giriş Yap"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_button_blue"/>
+    </LinearLayout>
+
+    <!-- Alt yazı -->
     <TextView
         android:id="@+id/registerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hesabınız yok mu? Kayıt olun"
-        android:textColor="#FFFFFF"
+        android:text="Hesabın yok mu? Kayıt"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:layout_below="@id/cardLogin"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
-</LinearLayout>
+</RelativeLayout>

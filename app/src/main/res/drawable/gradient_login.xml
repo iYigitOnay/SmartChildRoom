@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Arka plan rengi -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#A18CD1"
+                android:endColor="#FBC2EB"
+                android:angle="45"/>
+        </shape>
+    </item>
+
+    <!-- Dalga efekti için üst overlay -->
+    <item android:drawable="@drawable/login_wave" />
+</layer-list>

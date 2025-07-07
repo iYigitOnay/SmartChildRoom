@@ -50,10 +50,15 @@ class RegisterActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.passwordEditText)
 
         // Spinner için cinsiyet seçenekleri
-        val genders = arrayOf("Erkek", "Kız")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genders)
+        val genderOptions = arrayOf("Erkek", "Kız")
+        val adapter = ArrayAdapter(
+            this,
+            R.layout.spinner_item_white,  // beyaz yazı için özel layout
+            genderOptions
+        )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         childGender.adapter = adapter
+
 
         // Doğum tarihi seçici (DatePicker)
         childBirthDate.setOnClickListener {
