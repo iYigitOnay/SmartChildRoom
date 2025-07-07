@@ -1,8 +1,10 @@
 package com.bernacelik.akillioda
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -30,6 +32,12 @@ class DashboardActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val rootLayout = findViewById<LinearLayout>(R.id.dashboardRootLayout)
+        val gender = "Erkek" // bu değeri backend'den alıyorsan dynamic yap
+
+        val backgroundColor = if (gender == "Kız") "#FFE4E1" else "#E0F2FF"
+        rootLayout.setBackgroundColor(Color.parseColor(backgroundColor))
+
         setContentView(R.layout.activity_dashboard)
 
         tvTemperature = findViewById(R.id.tvTemperature)

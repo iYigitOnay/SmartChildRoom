@@ -1,88 +1,168 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#FFFFFF">
-
-    <TextView
-        android:id="@+id/textWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Merhaba ebeveyn!"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:id="@+id/textBirthday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Doğum gününe X gün kaldı"
-        android:textSize="16sp"
-        android:layout_marginBottom="24dp"/>
+    android:background="#E0F2FF"
+    android:padding="16dp">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/dashboardRootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3"
-        android:layout_marginBottom="24dp">
+        android:orientation="vertical">
 
+        <!-- Selamlama Başlığı -->
         <TextView
-            android:id="@+id/tvTemperature"
-            android:layout_width="0dp"
+            android:id="@+id/textWelcome"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="-- °C"
-            android:gravity="center"
-            android:background="#FFCDD2"
-            android:textColor="#B71C1C"
-            android:padding="16dp"
-            android:textSize="18sp"/>
+            android:text="Merhaba Aybars bebeğin ebeveyni İhsan Yiğit Önay!"
+            android:textColor="#1f55b2"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
 
+        <!-- Doğum Günü -->
         <TextView
-            android:id="@+id/tvHumidity"
-            android:layout_width="0dp"
+            android:id="@+id/textBirthday"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="-- %"
-            android:gravity="center"
-            android:background="#BBDEFB"
-            android:textColor="#0D47A1"
-            android:padding="16dp"
-            android:textSize="18sp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:text="Doğum gününüze 339 gün kaldı 🎂"
+            android:textColor="#2b5170"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
 
-        <TextView
-            android:id="@+id/tvCO2"
-            android:layout_width="0dp"
+        <!-- Sensör Kartları -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="-- ppm"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:background="#C8E6C9"
-            android:textColor="#1B5E20"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvTemperature"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="28.2 °C"
+                android:textColor="#ab2c32"
+                android:textSize="18sp"
+                android:background="@drawable/bg_temp" />
+
+            <TextView
+                android:id="@+id/tvHumidity"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="22.0 %"
+                android:textColor="#0a4dad"
+                android:textSize="18sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_humidity" />
+
+            <TextView
+                android:id="@+id/tvCO2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="60.0 ppm"
+                android:textColor="#1d6a2b"
+                android:textSize="18sp"
+                android:background="@drawable/bg_co2" />
+        </LinearLayout>
+
+        <!-- Bebek Resmi Kartı + Uyku Zamanı -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_asym_mor"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Resim Kartı -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="295dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_image_background"
+                android:clipToOutline="true"
+                android:elevation="6dp">
+
+                <ImageView
+                    android:id="@+id/ivChildPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#9688ed"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/babyyy" />
+            </FrameLayout>
+
+            <!-- Uyku Bilgisi -->
+            <TextView
+                android:id="@+id/tvSleepTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aybars'ın Yatma Saati: 21:00"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvSleepRemaining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="11 sa. 8 dk. kaldı 😴"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="start"
+                android:textAlignment="viewStart" />
+        </LinearLayout>
+
+        <!-- Acil Kişi -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#a1c9fe"
             android:padding="16dp"
-            android:textSize="18sp"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Acil Kişi"
+                android:textColor="#235cb5"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:textAlignment="viewStart" />
+
+            <TextView
+                android:id="@+id/tvEmergencyPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5454045604"
+                android:textColor="#235cb5"
+                android:textSize="16sp"
+                android:drawableEnd="@drawable/ic_phone"
+                android:drawablePadding="4dp"
+                android:gravity="start"
+                android:textAlignment="viewStart"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvSleepSchedule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Uyku Saati: --"
-        android:textSize="16sp"
-        android:textColor="#333333"/>
-
-    <TextView
-        android:id="@+id/tvEmergencyPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Acil Durum Telefonu: --"
-        android:textSize="16sp"
-        android:textColor="#333333"
-        android:layout_marginTop="16dp"/>
-
-</LinearLayout>
+</ScrollView>

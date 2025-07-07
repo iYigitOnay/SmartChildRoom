@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   cocukDogumTarihi: String,
   acilDurumKisisi: String,
   uykuZamani: String,
+
 });
 
 module.exports = mongoose.model("User", userSchema);
